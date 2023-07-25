@@ -1,20 +1,29 @@
-package com.project.vendas.entities;
+package com.project.vendas.domain.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.vendas.domain.enums.StatusPedido;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pedido implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -29,13 +38,12 @@ public class Pedido implements Serializable{
     private LocalDate dataPedido;
     private Double total;
     
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
-    
-    public Pedido() {
-    	
-    }
     
     public Pedido(Integer id, Cliente cliente, LocalDate dataPedido, Double total) {
 		super();
@@ -43,47 +51,6 @@ public class Pedido implements Serializable{
 		this.cliente = cliente;
 		this.dataPedido = dataPedido;
 		this.total = total;
+		
 	}
-
-	public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public LocalDate getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(LocalDate dataPedido) {
-        this.dataPedido = dataPedido;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
-    }
-
-	public List<ItemPedido> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<ItemPedido> itens) {
-		this.itens = itens;
-	}
-	
-    
 }

@@ -2,22 +2,25 @@ package com.project.vendas.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.vendas.dto.ItemPedidoDTO;
-import com.project.vendas.dto.PedidoDTO;
-import com.project.vendas.entities.Cliente;
-import com.project.vendas.entities.ItemPedido;
-import com.project.vendas.entities.Pedido;
-import com.project.vendas.entities.Produto;
+import com.project.vendas.domain.entities.Cliente;
+import com.project.vendas.domain.entities.ItemPedido;
+import com.project.vendas.domain.entities.Pedido;
+import com.project.vendas.domain.entities.Produto;
+import com.project.vendas.domain.enums.StatusPedido;
+import com.project.vendas.domain.repositories.ClienteRepository;
+import com.project.vendas.domain.repositories.ItemPedidoRepository;
+import com.project.vendas.domain.repositories.PedidoRepository;
+import com.project.vendas.domain.repositories.ProdutoRepository;
+import com.project.vendas.exception.PedidoNaoEncontradoException;
 import com.project.vendas.exception.VendasException;
-import com.project.vendas.repositories.ClienteRepository;
-import com.project.vendas.repositories.ItemPedidoRepository;
-import com.project.vendas.repositories.PedidoRepository;
-import com.project.vendas.repositories.ProdutoRepository;
+import com.project.vendas.rest.dto.ItemPedidoDTO;
+import com.project.vendas.rest.dto.PedidoDTO;
 import com.project.vendas.service.PedidoService;
 
 import jakarta.transaction.Transactional;
@@ -49,6 +52,7 @@ public class PedidoServiceImp implements PedidoService{
 		pedido.setTotal(dto.getTotal());
 		pedido.setDataPedido(LocalDate.now());
 		pedido.setCliente(cliente);
+		pedido.setStatus(StatusPedido.REALIZADO);
 		
 		List<ItemPedido> itemPedido = converterItem(pedido, dto.getItems());
 		pedidoRepository.save(pedido);
@@ -72,5 +76,19 @@ public class PedidoServiceImp implements PedidoService{
 			itemPedido.setProduto(produto);
 			return itemPedido;
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<Pedido> obterPedidoCompleto(Integer id) {
+		return pedidoRepository.findByIdFetchItens(id);
+	}
+
+	@Override
+	@Transactional
+	public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+		pedidoRepository.findById(id).map(pedido -> {
+			pedido.setStatus(statusPedido);
+			return pedidoRepository.save(pedido);
+		}).orElseThrow(() -> new PedidoNaoEncontradoException());
 	}
 }

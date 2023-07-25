@@ -9,14 +9,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.project.vendas.dto.ItemPedidoDTO;
-import com.project.vendas.dto.PedidoDTO;
-import com.project.vendas.entities.Cliente;
-import com.project.vendas.entities.Produto;
-import com.project.vendas.repositories.ClienteRepository;
-import com.project.vendas.repositories.ProdutoRepository;
+import com.project.vendas.domain.entities.Cliente;
+import com.project.vendas.domain.entities.Produto;
+import com.project.vendas.domain.repositories.ClienteRepository;
+import com.project.vendas.domain.repositories.ProdutoRepository;
+import com.project.vendas.rest.dto.ItemPedidoDTO;
+import com.project.vendas.rest.dto.PedidoDTO;
 import com.project.vendas.service.PedidoService;
-
 
 @Configuration
 @Profile("test")
@@ -36,9 +35,10 @@ public class TestConfig implements CommandLineRunner {
 		
 		List<ItemPedidoDTO> list = new ArrayList<>();
 		
-		Cliente c1 = new Cliente(null, "Amanda");
-		Cliente c2 = new Cliente(null, "Isadora");
-		Cliente c3 = new Cliente(null, "Ana Caroline");
+		Cliente c1 = new Cliente(null, "Amanda", "101.546.654.96");
+		Cliente c2 = new Cliente(null, "Isadora", "254.546.984.96");
+		Cliente c3 = new Cliente(null, "Ana Caroline", "654.478.655.14");
+		
 		
 		clienteRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
@@ -61,5 +61,4 @@ public class TestConfig implements CommandLineRunner {
 		pedidoRepository.salvar(pd);
 		
 	}
-
 }

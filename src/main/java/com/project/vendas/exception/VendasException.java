@@ -6,6 +6,6 @@ public class VendasException extends RuntimeException {
 	
 	public VendasException(String message) {
 		super(message);
+		
 	}
-
 }

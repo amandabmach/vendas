@@ -1,4 +1,4 @@
-package com.project.vendas.entities;
+package com.project.vendas.domain.entities;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -10,8 +10,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cliente implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -20,43 +26,16 @@ public class Cliente implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    private String cpf;
     
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
 
-    public Cliente() {
-    }
-
-    public Cliente(Integer id, String nome) {
+    public Cliente(Integer id, String nome, String cpf) {
         this.id = id;
         this.nome = nome;
+        this.cpf = cpf;
+        
     }
-
-    public Cliente(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-	public Set<Pedido> getPedidos() {
-		return pedidos;
-	}
-    
-
-  
 }
