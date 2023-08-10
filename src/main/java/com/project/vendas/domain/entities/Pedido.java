@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.vendas.domain.enums.StatusPedido;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,15 +30,21 @@ public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "cliente_id")
     private Cliente cliente;
+	
+	@Column(name = "data_pedido")
     private LocalDate dataPedido;
+	
+	@Column(name = "total")
     private Double total;
     
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
     

@@ -18,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.project.vendas.domain.entities.Produto;
 import com.project.vendas.domain.repositories.ProdutoRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -38,7 +40,7 @@ public class ProdutoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Produto insert(@RequestBody Produto produto){
+	public Produto insert(@RequestBody @Valid Produto produto){
 		return produtoRepository.save(produto);
 	}
 	
@@ -54,7 +56,7 @@ public class ProdutoController {
 
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable Integer id, @RequestBody Produto produto){
+	public void update(@PathVariable Integer id, @RequestBody @Valid Produto produto){
 		produtoRepository.findById(id)
 			.map(produtoExistente -> {
 				 produto.setId(produtoExistente.getId()); 

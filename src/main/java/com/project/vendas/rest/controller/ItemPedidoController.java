@@ -20,7 +20,6 @@ public class ItemPedidoController {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
-	
 	@GetMapping
 	public List<ItemPedido> findAll(){
 		return itemPedidoRepository.findAll();
@@ -31,4 +30,5 @@ public class ItemPedidoController {
 		return itemPedidoRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException( HttpStatus.NOT_FOUND, "Cliente não encontrado"));
 	}
+	
 }

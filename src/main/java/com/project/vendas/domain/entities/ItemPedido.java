@@ -2,6 +2,7 @@ package com.project.vendas.domain.entities;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,16 +22,19 @@ public class ItemPedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "pedido_id")
     private Pedido pedido;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "produto_id")
     private Produto produto;
+	
+	@Column(name = "quantidade")
     private Integer quantidade;
     
 }

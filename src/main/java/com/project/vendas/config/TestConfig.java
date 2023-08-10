@@ -35,10 +35,9 @@ public class TestConfig implements CommandLineRunner {
 		
 		List<ItemPedidoDTO> list = new ArrayList<>();
 		
-		Cliente c1 = new Cliente(null, "Amanda", "101.546.654.96");
-		Cliente c2 = new Cliente(null, "Isadora", "254.546.984.96");
-		Cliente c3 = new Cliente(null, "Ana Caroline", "654.478.655.14");
-		
+		Cliente c1 = new Cliente(null, "Amanda", "43463105080");
+		Cliente c2 = new Cliente(null, "Isadora", "34307378008");
+		Cliente c3 = new Cliente(null, "Ana Caroline", "97708664071");
 		
 		clienteRepository.saveAll(Arrays.asList(c1, c2, c3));
 		

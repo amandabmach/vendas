@@ -20,6 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.project.vendas.domain.entities.Cliente;
 import com.project.vendas.domain.repositories.ClienteRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -36,12 +38,12 @@ public class ClienteController {
 	@GetMapping("/{id}")
 	public Cliente findById(@PathVariable Integer id){
 		return clienteRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException( HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente insert(@RequestBody Cliente cliente){
+	public Cliente insert(@RequestBody @Valid Cliente cliente){
 		return clienteRepository.save(cliente);
 	}
 	
@@ -58,7 +60,7 @@ public class ClienteController {
 	
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable Integer id, @RequestBody Cliente cliente){
+	public void update(@PathVariable Integer id, @RequestBody @Valid Cliente cliente){
 		clienteRepository.findById(id)
 				.map(clienteExistente -> {
 					 cliente.setId(clienteExistente.getId()); 

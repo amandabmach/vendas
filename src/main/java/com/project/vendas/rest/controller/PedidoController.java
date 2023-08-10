@@ -30,6 +30,8 @@ import com.project.vendas.rest.dto.InfoPedidosDTO;
 import com.project.vendas.rest.dto.PedidoDTO;
 import com.project.vendas.service.PedidoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -54,7 +56,7 @@ public class PedidoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Integer save(@RequestBody PedidoDTO dto) {
+	public Integer save(@RequestBody @Valid PedidoDTO dto) {
 		Pedido pedido = service.salvar(dto);
 		return pedido.getId();
 	}
